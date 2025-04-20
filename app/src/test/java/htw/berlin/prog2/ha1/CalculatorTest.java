@@ -100,6 +100,12 @@ public void testMultiplication() {
     calc.pressEqualsKey();
     assertEquals("12", calc.readScreen());
 }
-
+@Test
+@DisplayName("should display Error when taking square root of a negative number")
+public void testSquareRootOfNegativeNumber() {
+    Calculator calc = new Calculator();
+    calc.pressDigitKey(9);
+    calc.pressNegativeKey(); // 9 wird negativ
+    calc.pressUnaryOperationKey("√");
+    assertEquals("Error", calc.readScreen()); // FAIL erwartet, falls "-NaN" oder "-3"
 }
-
