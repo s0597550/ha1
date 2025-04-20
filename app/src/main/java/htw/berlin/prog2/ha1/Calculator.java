@@ -72,19 +72,24 @@ public class Calculator {
      * @param operation "√" für Quadratwurzel, "%" für Prozent, "1/x" für Inversion
      */
     public void pressUnaryOperationKey(String operation) {
-        latestValue = Double.parseDouble(screen);
-        latestOperation = operation;
-        var result = switch(operation) {
-            case "√" -> Math.sqrt(Double.parseDouble(screen));
-            case "%" -> Double.parseDouble(screen) / 100;
-            case "1/x" -> 1 / Double.parseDouble(screen);
-            default -> throw new IllegalArgumentException();
-        };
-        screen = Double.toString(result);
-        if(screen.equals("NaN")) screen = "Error";
-        if(screen.contains(".") && screen.length() > 11) screen = screen.substring(0, 10);
-
+        double number = Double.parseDouble(display);
+        double result = 0;
+    
+        if (operation.equals("√")) {
+            if (number < 0) {
+                display = "Error";
+                return;
+            } else {
+                result = Math.sqrt(number);
+            }
+        }
+    
+        display = String.valueOf(result);
+        if (display.endsWith(".0")) {
+            display = display.substring(0, display.length() - 2);
+        }
     }
+    
 
     /**
      * Empfängt den Befehl der gedrückten Dezimaltrennzeichentaste, im Englischen üblicherweise "."
@@ -94,8 +99,15 @@ public class Calculator {
      * Beim zweimaligem Drücken, oder wenn bereits ein Trennzeichen angezeigt wird, passiert nichts.
      */
     public void pressDotKey() {
-        if(!screen.contains(".")) screen = screen + ".";
+        if (!display.contains(".")) {
+            if (display.equals("0")) {
+                display = "0.";
+            } else {
+                display = display + ".";
+            }
+        }
     }
+    
 
     /**
      * Empfängt den Befehl der gedrückten Vorzeichenumkehrstaste ("+/-").
