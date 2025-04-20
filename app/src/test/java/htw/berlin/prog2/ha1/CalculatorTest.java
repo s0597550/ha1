@@ -1,9 +1,8 @@
 package htw.berlin.prog2.ha1;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Retro calculator")
 class CalculatorTest {
@@ -90,5 +89,17 @@ class CalculatorTest {
 
 
     //TODO hier weitere Tests erstellen
+
+    @Test
+@DisplayName("should correctly multiply two single-digit numbers")
+public void testMultiplication() {
+    Calculator calc = new Calculator();
+    calc.pressDigitKey(3);
+    calc.pressBinaryOperationKey("x");
+    calc.pressDigitKey(4);
+    calc.pressEqualsKey();
+    assertEquals("12", calc.readScreen());
+}
+
 }
 
